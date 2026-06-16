@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shortly — Shorten any URL</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Inter for body, Space Grotesk for display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">Shortly</span>
+        </div>
+      </header>
+
+      <!-- Hero -->
+      <main class="main">
+        <section class="hero">
+          <h1 class="hero-title">Short links.<br />Big reach.</h1>
+          <p class="hero-sub">
+            Paste your long URL below and get a clean, shareable link in seconds.
+          </p>
+        </section>
+
+        <!-- Shortener Card -->
+        <div class="card">
+          <div class="input-row">
+            <input
+              id="urlInput"
+              type="url"
+              class="url-input"
+              placeholder="https://your-very-long-url.com/goes/here"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button id="shortenBtn" class="shorten-btn">
+              <span class="btn-text">Shorten</span>
+              <span class="btn-loader" hidden>
+                <svg class="spinner" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5" stroke-dasharray="31.4" stroke-dashoffset="10" />
+                </svg>
+              </span>
+            </button>
+          </div>
+
+          <!-- Error message -->
+          <p id="errorMsg" class="error-msg" hidden></p>
+
+          <!-- Result area -->
+          <div id="result" class="result" hidden>
+            <div class="result-label">Your short link</div>
+            <div class="result-row">
+              <a id="shortLink" class="short-link" href="#" target="_blank" rel="noopener"></a>
+              <button id="copyBtn" class="copy-btn" title="Copy to clipboard">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Copy</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features strip -->
+        <div class="features">
+          <div class="feature">
+            <span class="feature-icon">🔗</span>
+            <span>Instant shortening</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">📊</span>
+            <span>Click tracking</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">♾️</span>
+            <span>Links never expire</span>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer">
+        Built with Node.js + MongoDB &nbsp;·&nbsp; Shortly &copy; 2025
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
