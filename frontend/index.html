@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shortly — Shorten any URL</title>
     <link rel="stylesheet" href="style.css" />
-    <!-- Inter for body, Space Grotesk for display -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,6 +14,7 @@
   </head>
   <body>
     <div class="page">
+
       <!-- Header -->
       <header class="header">
         <div class="logo">
@@ -23,18 +23,20 @@
         </div>
       </header>
 
-      <!-- Hero -->
       <main class="main">
+
+        <!-- Hero -->
         <section class="hero">
           <h1 class="hero-title">Short links.<br />Big reach.</h1>
-          <p class="hero-sub">
-            Paste your long URL below and get a clean, shareable link in seconds.
-          </p>
+          <p class="hero-sub">Paste a URL, choose a custom alias, set an expiry — done.</p>
         </section>
 
-        <!-- Shortener Card -->
-        <div class="card">
-          <div class="input-row">
+        <!-- ── Shortener Card ─────────────────────────────────────── -->
+        <div class="card" id="mainCard">
+
+          <!-- Long URL input -->
+          <div class="field">
+            <label class="field-label" for="urlInput">Destination URL</label>
             <input
               id="urlInput"
               type="url"
@@ -43,53 +45,152 @@
               autocomplete="off"
               spellcheck="false"
             />
-            <button id="shortenBtn" class="shorten-btn">
-              <span class="btn-text">Shorten</span>
-              <span class="btn-loader" hidden>
-                <svg class="spinner" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5" stroke-dasharray="31.4" stroke-dashoffset="10" />
-                </svg>
-              </span>
-            </button>
           </div>
 
-          <!-- Error message -->
+          <!-- Advanced options (collapsible) -->
+          <div class="adv-toggle" id="advToggle">
+            <span>⚙ Advanced options</span>
+            <svg class="adv-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+
+          <div class="adv-panel" id="advPanel">
+            <div class="adv-row">
+              <!-- Custom slug -->
+              <div class="field">
+                <label class="field-label" for="slugInput">Custom slug <span class="optional">(optional)</span></label>
+                <div class="slug-wrap">
+                  <span class="slug-prefix" id="slugPrefix">shortly/</span>
+                  <input
+                    id="slugInput"
+                    type="text"
+                    class="slug-input"
+                    placeholder="my-link"
+                    maxlength="50"
+                    autocomplete="off"
+                    spellcheck="false"
+                  />
+                </div>
+              </div>
+              <!-- Expiry -->
+              <div class="field">
+                <label class="field-label" for="expirySelect">Expires after <span class="optional">(optional)</span></label>
+                <select id="expirySelect" class="select-input">
+                  <option value="">Never</option>
+                  <option value="1">1 day</option>
+                  <option value="7">7 days</option>
+                  <option value="30">30 days</option>
+                  <option value="90">90 days</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shorten button -->
+          <button id="shortenBtn" class="shorten-btn">
+            <span class="btn-text">Shorten URL</span>
+            <span class="btn-loader" hidden>
+              <svg class="spinner" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5" stroke-dasharray="31.4" stroke-dashoffset="10" />
+              </svg>
+            </span>
+          </button>
+
+          <!-- Error -->
           <p id="errorMsg" class="error-msg" hidden></p>
 
-          <!-- Result area -->
+          <!-- ── Result Area ──────────────────────────────────────── -->
           <div id="result" class="result" hidden>
-            <div class="result-label">Your short link</div>
-            <div class="result-row">
+            <div class="result-header">
+              <span class="result-label">✅ Your short link is ready</span>
+              <span id="expiryBadge" class="expiry-badge" hidden></span>
+            </div>
+
+            <div class="result-link-row">
               <a id="shortLink" class="short-link" href="#" target="_blank" rel="noopener"></a>
-              <button id="copyBtn" class="copy-btn" title="Copy to clipboard">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              <div class="result-actions">
+                <button id="copyBtn" class="icon-btn" title="Copy link">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Copy</span>
+                </button>
+                <button id="qrBtn" class="icon-btn" title="Show QR code">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>
+                    <rect x="5" y="5" width="3" height="3" fill="currentColor"></rect>
+                    <rect x="16" y="5" width="3" height="3" fill="currentColor"></rect>
+                    <rect x="16" y="16" width="3" height="3" fill="currentColor"></rect>
+                    <rect x="5" y="16" width="3" height="3" fill="currentColor"></rect>
+                  </svg>
+                  <span>QR</span>
+                </button>
+                <button id="statsBtn" class="icon-btn" title="View analytics">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                  </svg>
+                  <span>Stats</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- QR panel -->
+            <div id="qrPanel" class="qr-panel" hidden>
+              <img id="qrImage" class="qr-img" src="" alt="QR Code" />
+              <button id="downloadQr" class="icon-btn qr-dl">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
-                <span>Copy</span>
+                Download QR
               </button>
+            </div>
+
+            <!-- Stats panel -->
+            <div id="statsPanel" class="stats-panel" hidden>
+              <div class="stats-grid">
+                <div class="stat-box">
+                  <div class="stat-val" id="sTotalClicks">—</div>
+                  <div class="stat-key">Total clicks</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-val" id="sCreated">—</div>
+                  <div class="stat-key">Created</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-val" id="sLastClick">—</div>
+                  <div class="stat-key">Last click</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-val" id="sStatus">—</div>
+                  <div class="stat-key">Status</div>
+                </div>
+              </div>
+              <div class="breakdown-row">
+                <div class="breakdown" id="bdDevice"></div>
+                <div class="breakdown" id="bdBrowser"></div>
+              </div>
+              <button id="statsRefresh" class="icon-btn refresh-btn">↻ Refresh</button>
             </div>
           </div>
         </div>
 
         <!-- Features strip -->
         <div class="features">
-          <div class="feature">
-            <span class="feature-icon">🔗</span>
-            <span>Instant shortening</span>
-          </div>
-          <div class="feature">
-            <span class="feature-icon">📊</span>
-            <span>Click tracking</span>
-          </div>
-          <div class="feature">
-            <span class="feature-icon">♾️</span>
-            <span>Links never expire</span>
-          </div>
+          <div class="feature"><span>🔗</span><span>Custom slugs</span></div>
+          <div class="feature"><span>📊</span><span>Click analytics</span></div>
+          <div class="feature"><span>📷</span><span>QR codes</span></div>
+          <div class="feature"><span>⏱</span><span>Link expiry</span></div>
         </div>
+
       </main>
 
-      <!-- Footer -->
       <footer class="footer">
         Built with Node.js + MongoDB &nbsp;·&nbsp; Shortly &copy; 2025
       </footer>
