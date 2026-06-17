@@ -8,7 +8,12 @@ const urlRoutes  = require("./routes/url");
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
-
+app.get("/healthz", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    uptime: process.uptime()
+  });
+});
 // ─── Rate Limiters ────────────────────────────────────────────────────────────
 // General API limiter: 60 req / 1 min per IP
 const apiLimiter = rateLimit({
